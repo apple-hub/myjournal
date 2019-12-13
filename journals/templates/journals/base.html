@@ -1,0 +1,38 @@
+{% load static %}
+
+<html>
+    <head>
+        <title>Journal site</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/journals.css' %}">
+    </head>
+    
+    <body>
+        <!-- header -->
+        <div class="page-header">
+            {% if user.is_authenticated %}
+                <!-- Add new journal -->
+                <a href="{% url 'journal_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+                <!-- List up drafts -->
+                <a href="{% url 'journal_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+                <!-- Show if user is login -->
+                <p class="top-menu">{{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+            {% else %}
+                <!-- Login  button -->
+                <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+            {% endif %}
+                <!-- Title -->
+                <h1><a href="/">My Journal Site</a></h1>
+        </div>
+        <!-- main -->
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

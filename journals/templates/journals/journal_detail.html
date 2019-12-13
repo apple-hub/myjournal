@@ -1,0 +1,43 @@
+{% extends 'journals/base.html' %}
+
+{% block content %}
+<!-- journal detail -->
+    <div class="post">
+        <!-- publish button -->
+        {% if journal.updated_datetime %}
+            <div class="date">
+                {{ journal.updated_datetime }}
+            </div>
+         {% else %}
+            <a class="btn btn-default" href="{% url 'journal_publish' pk=journal.pk %}">Publish</a>
+        {% endif %}
+        <!-- edit button -->
+        {% if user.is_authenticated %}
+        <a class="btn btn-default" href="{% url 'journal_edit' pk=journal.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <!-- journal remove button -->
+        <a class="btn btn-default" href="{% url 'journal_remove' pk=journal.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+        {% endif %}
+        <!-- journal detail -->
+        <h2>{{ journal.title }}</h2>
+        <p>{{ journal.text|linebreaksbr }}</p>
+    </div>
+
+<!-- comment detail -->
+    <hr>
+    <!-- add comment button -->
+        <a class="btn btn-default" href="{% url 'add_comment_to_journal' pk=journal.pk %}">Add comment</a>
+            {% for comment in journal.comments.all %}
+                <hr>
+                <div class="comment">
+                    <div class="date">{{ comment.created_datetime }}</div>
+                    <strong>{{ comment.author }}</strong>
+                    <p>{{ comment.text|linebreaks }}</p>
+                </div>
+            <!-- comment remove button -->
+                {% if user.is_authenticated %}
+                    <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                {% endif %}
+            {% empty %}
+                <p>No comments here yet :(</p>
+            {% endfor %}
+{% endblock %}

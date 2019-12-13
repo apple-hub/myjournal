@@ -1,0 +1,13 @@
+{% extends 'journals/base.html' %}
+
+{% block content %}
+    <h3>These journals are not published.</h3>
+    {% for draft in drafts %}
+        <div class="post">
+            <p class="date">created: {{ draft.created_datetime|date:'d-m-Y' }}</p>
+            <h1><a href="{% url 'journal_detail' pk=draft.pk %}">{{ draft.title }}</a></h1>
+            <p>{{ journal.text }}</p>
+        </div>
+    {% endfor %}
+    <hr>
+{% endblock %}

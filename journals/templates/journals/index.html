@@ -1,0 +1,15 @@
+{% extends 'journals/base.html' %}
+
+{% block content %}
+    {% for journal in journals %}
+        <div class="post">
+            <div class="date">
+                <p>published: {{ journal.updated_datetime }}</p>
+            </div>
+            <h2><a href="{% url 'journal_detail' pk=journal.pk %}">{{ journal.title }}</a></h2>
+            <p>{{ journal.text|linebreaksbr }}</p>
+            <a href="{% url 'journal_detail' pk=journal.pk %}">Comments: {{ journal.comments.count }}</a>
+        </div>
+        <hr>
+    {% endfor %}
+{% endblock%}
