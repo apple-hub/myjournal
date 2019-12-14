@@ -20,7 +20,9 @@
                 <p class="top-menu">{{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
             {% else %}
                 <!-- Login  button -->
-                <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+                <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-log-in"></span></a>
+                <!-- Sign up button -->
+                <a href="{% url 'signup' %}" class="top-menu"><span class="glyphicon glyphicon-user"></span></a>
             {% endif %}
                 <!-- Title -->
                 <h1><a href="/">My Journal Site</a></h1>

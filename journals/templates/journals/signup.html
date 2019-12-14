@@ -1,7 +1,8 @@
 {% extends "journals/base.html" %}
 
 {% block content %}
-    <h2>Log in!</h2>
+    <h2>Sign up!</h2>
+
     {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}
@@ -9,8 +10,8 @@
             {% endfor %}
         {% endfor %}
     {% endif %}
-    
-    <form method="post" action="{% url 'login' %}">
+
+    <form method="post" action="{% url 'signup' %}">
     {% csrf_token %}
         <table>
         <tr>
@@ -18,12 +19,15 @@
             <td>{{ form.username }}</td>
         </tr>
         <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
+            <td>{{ form.password1.label_tag }}</td>
+            <td>{{ form.password1 }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password2.label_tag }}</td>
+            <td>{{ form.password2 }}</td>
         </tr>
         </table>
 
-        <input type="submit" value="login" />
-        <input type="hidden" name="next" value="{{ next }}" />
+        <input type="submit" value="signup" />
     </form>
 {% endblock %}

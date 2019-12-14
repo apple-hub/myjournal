@@ -11,6 +11,8 @@ urlpatterns = [
     path('journal/<pk>/remove/', views.journal_remove, name='journal_remove'),
     path('journal/<int:pk>/comment/', views.add_comment_to_journal, name='add_comment_to_journal'),
     path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
+    path('signup/', views.signup, name='signup'),
+
 
 
 ]

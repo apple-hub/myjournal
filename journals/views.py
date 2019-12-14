@@ -4,6 +4,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Journal, Comment
 from .forms import JournalForm, CommentForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+
 
 # Create your views here.
 def index(request):
@@ -59,6 +62,13 @@ def journal_remove(request, pk):
     journal.delete()
     return redirect('/')
 
+
+@user_passes_test(lambda u: u.is_superuser)
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.delete()
+    return redirect('journal_detail', pk=comment.journal.pk)
+
 @login_required
 def add_comment_to_journal(request, pk):
     journal = get_object_or_404(Journal, pk=pk)
@@ -73,8 +83,18 @@ def add_comment_to_journal(request, pk):
         form = CommentForm()
     return render(request, 'journals/add_comment_to_journal.html', {'form':form})
 
-@user_passes_test(lambda u: u.is_superuser)
-def comment_remove(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.delete()
-    return redirect('journal_detail', pk=comment.journal.pk)
+def signup(request):
+    if request.method=='POST':
+        form=UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user=form.save()
+            input_username=form.cleaned_data['username']
+            input_password1=form.cleaned_data['password1']
+            input_password2=form.cleaned_data['password2']
+            new_user=authenticate(username=input_username, password=input_password1)
+            if new_user is not None:
+                login(request, new_user)
+                return redirect('/')
+    else:
+        form=UserCreationForm()
+    return render(request, 'journals/signup.html', {'form':form})
